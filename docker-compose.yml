@@ -74,6 +74,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=product_db
+      - POSTGRES_SYNC_ORM=true
     networks:
       - app-network
     depends_on:
@@ -97,6 +98,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=product_review_aggregate_db
+      - MONGO_INITDB_SYNC_ORM=true
     networks:
       - app-network
     depends_on:

@@ -14,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         process.env.MONGO_INITDB_DATABASE || 'product_review_aggregate_db',
       authSource: 'admin',
       entities: [],
-      synchronize: true,
+      synchronize: process.env.MONGO_INITDB_SYNC_ORM === 'true' || false,
     }),
   ],
   controllers: [ProductReviewProcessorController],
