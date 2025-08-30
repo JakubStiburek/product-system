@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ProductReviewProcessorController } from './product-review-processor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductReviewAggregate } from './entities/product-review-aggregate.entity';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database:
         process.env.MONGO_INITDB_DATABASE || 'product_review_aggregate_db',
       authSource: 'admin',
-      entities: [],
+      entities: [ProductReviewAggregate],
       synchronize: process.env.MONGO_INITDB_SYNC_ORM === 'true' || false,
     }),
   ],
