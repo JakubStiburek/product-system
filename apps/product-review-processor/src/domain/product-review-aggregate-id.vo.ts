@@ -1,8 +1,8 @@
-import { IsUUID } from 'class-validator';
+import { IsString } from 'class-validator';
 import { ValidatedClass } from '../common/utils/validated-class';
 
 export class ProductReviewAggregateId extends ValidatedClass {
-  @IsUUID(4)
+  @IsString()
   readonly value: string;
 
   constructor(value: string) {

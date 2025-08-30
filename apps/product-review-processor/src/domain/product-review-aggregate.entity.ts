@@ -36,4 +36,42 @@ export class ProductReviewAggregate extends ValidatedClass {
     this.ratingSum = ratingSum;
     this.averageRating = averageRating;
   }
+
+  addReview(rating: number) {
+    if (!this.isValidRating(rating)) {
+      return;
+    }
+
+    this.reviewCount++;
+    this.ratingSum = this.ratingSum + rating;
+    this.averageRating = this.countAverageRating(
+      this.ratingSum,
+      this.reviewCount,
+    );
+  }
+
+  removeReview(rating: number) {
+    if (!this.isValidRating(rating) || !this.canRemoveReview(rating)) {
+      return;
+    }
+
+    this.reviewCount--;
+    this.ratingSum = this.ratingSum - rating;
+    this.averageRating =
+      this.reviewCount > 0
+        ? this.countAverageRating(this.ratingSum, this.reviewCount)
+        : 0;
+  }
+
+  private isValidRating(rating: number): boolean {
+    return Number.isInteger(rating) && [1, 2, 3, 4, 5].includes(rating);
+  }
+
+  private canRemoveReview(rating: number): boolean {
+    return this.reviewCount > 0 && this.ratingSum >= rating;
+  }
+
+  private countAverageRating(ratingSum: number, reviewCount: number) {
+    return Number((ratingSum / reviewCount).toFixed(2));
+  }
 }
