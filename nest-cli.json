@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/product-service/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/product-service/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/product-service",
+  "projects": {
+    "product-review-processor": {
+      "type": "application",
+      "root": "apps/product-review-processor",
+      "entryFile": "main",
+      "sourceRoot": "apps/product-review-processor/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/product-review-processor/tsconfig.app.json"
+      }
+    },
+    "product-service": {
+      "type": "application",
+      "root": "apps/product-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/product-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/product-service/tsconfig.app.json"
+      }
+    }
+  }
+}
