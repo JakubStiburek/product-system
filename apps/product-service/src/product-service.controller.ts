@@ -22,13 +22,16 @@ import { ListProductsUseCase } from './application/list-products.use-case';
 import { CreateReviewUseCase } from './application/create-review.use-case';
 import { UpdateReviewUseCase } from './application/update-review.use-case';
 import { DeleteReviewUseCase } from './application/delete-review.use-case';
+import { ListReviewsUseCase } from './application/list-reviews.use-case';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProductResponseDto } from './dtos/create-product-response.dto';
 import { PaginatedProductsResponseDto } from './dtos/paginated-products-response.dto';
 import { CreateReviewResponseDto } from './dtos/create-review-response.dto';
+import { PaginatedReviewsResponseDto } from './dtos/paginated-reviews-response.dto';
 import { UuidDto } from './common/dtos/uuid.dto';
 import { ProductIdDto } from './dtos/product-id.dto';
 import { ReviewIdDto } from './dtos/review-id.dto';
+import { ListReviewsQueryDto } from './dtos/list-reviews-query.dto';
 
 @Controller('api/v1')
 export class AppController {
@@ -41,6 +44,7 @@ export class AppController {
     @Inject() private createReviewUseCase: CreateReviewUseCase,
     @Inject() private updateReviewUseCase: UpdateReviewUseCase,
     @Inject() private deleteReviewUseCase: DeleteReviewUseCase,
+    @Inject() private listReviewsUseCase: ListReviewsUseCase,
   ) {}
 
   @Get('products')
@@ -127,6 +131,29 @@ export class AppController {
   @ApiTags('product')
   async deleteProduct(@Param() { id }: UuidDto) {
     return this.deleteProductUseCase.execute(id);
+  }
+
+  @Get('products/:id/reviews')
+  @ApiOperation({
+    summary: 'Lists reviews for a product with pagination',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Reviews retrieved successfully',
+    type: PaginatedReviewsResponseDto,
+  })
+  @ApiTags('review')
+  async listReviews(
+    @Param() { id }: UuidDto,
+    @Query() pagination: PaginationDto,
+    @Query() query: ListReviewsQueryDto,
+  ) {
+    return this.listReviewsUseCase.execute(
+      id,
+      pagination.page,
+      pagination.limit,
+      query,
+    );
   }
 
   @Post('products/:id/reviews')

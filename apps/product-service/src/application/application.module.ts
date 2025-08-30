@@ -10,6 +10,7 @@ import { ListProductsUseCase } from './list-products.use-case';
 import { CreateReviewUseCase } from './create-review.use-case';
 import { UpdateReviewUseCase } from './update-review.use-case';
 import { DeleteReviewUseCase } from './delete-review.use-case';
+import { ListReviewsUseCase } from './list-reviews.use-case';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { InfrastructureModule } from '../infrastracture/infrastructure.module';
 
@@ -23,6 +24,7 @@ import { InfrastructureModule } from '../infrastracture/infrastructure.module';
     CreateReviewUseCase,
     UpdateReviewUseCase,
     DeleteReviewUseCase,
+    ListReviewsUseCase,
   ],
   exports: [
     CreateProductUseCase,
@@ -33,6 +35,7 @@ import { InfrastructureModule } from '../infrastracture/infrastructure.module';
     CreateReviewUseCase,
     UpdateReviewUseCase,
     DeleteReviewUseCase,
+    ListReviewsUseCase,
   ],
   imports: [
     ClientsModule.register([
