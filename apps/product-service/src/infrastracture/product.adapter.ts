@@ -18,7 +18,7 @@ export class ProductAdapter {
       id: product.id.value,
       name: product.name,
       price: centsToEurosTransformer.to(product.price),
-      description: product.description,
+      description: product.description === null ? '' : product.description,
     });
   }
 
@@ -26,8 +26,12 @@ export class ProductAdapter {
     return Product.create(
       ProductId.create(product.id),
       product.name,
-      centsToEurosTransformer.from(product.name),
-      product.description,
+      centsToEurosTransformer.from(product.price),
+      product.description === '' ? undefined : product.description,
     );
+  }
+
+  toDomainPrice(dbPrice: string): number {
+    return centsToEurosTransformer.from(dbPrice);
   }
 }

@@ -32,4 +32,3 @@ export class ProductReviewAggregate {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-

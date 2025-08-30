@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { CreateProductUseCase } from './create-product.use-case';
+import { UpdateProductUseCase } from './update-product.use-case';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { InfrastructureModule } from '../infrastracture/infrastructure.module';
 
 @Module({
-  providers: [CreateProductUseCase],
-  exports: [CreateProductUseCase],
+  providers: [CreateProductUseCase, UpdateProductUseCase],
+  exports: [CreateProductUseCase, UpdateProductUseCase],
   imports: [
     ClientsModule.register([
       {

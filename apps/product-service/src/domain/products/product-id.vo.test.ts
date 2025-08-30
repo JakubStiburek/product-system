@@ -1,5 +1,6 @@
 import { v4, v7 } from 'uuid';
 import { ProductId } from './product-id.vo';
+import { InvalidInstanceException } from '../../common/utils/exceptions/invalid-instance.exception';
 
 describe('ProductId', () => {
   it('should create valid isntance', () => {
@@ -7,6 +8,6 @@ describe('ProductId', () => {
   });
 
   it('should reject invalid uuid version', () => {
-    expect(() => ProductId.create(v7())).toThrow();
+    expect(() => ProductId.create(v7())).toThrow(InvalidInstanceException);
   });
 });

@@ -20,4 +20,4 @@ import { ProductReviewAggregate } from './entities/product-review-aggregate.enti
   ],
   controllers: [ProductReviewProcessorController],
 })
-export class ProductReviewProcessorModule { }
+export class ProductReviewProcessorModule {}

@@ -19,7 +19,7 @@ export abstract class ValidatedClass {
     return ValidatedClass.validateInstance(instance);
   }
 
-  private static validateInstance<T extends object>(instance: T): T {
+  static validateInstance<T extends object>(instance: T): T {
     const validationErrors = validateSync(instance, {
       forbidUnknownValues: false,
     });
