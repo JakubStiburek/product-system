@@ -12,7 +12,7 @@
     "start:product-review-processor:dev": "nest start product-review-processor --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/product-service/main",
-    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
