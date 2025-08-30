@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './product-service.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity';
+import { Review } from './entities/review.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.POSTGRES_USER || 'admin',
       password: process.env.POSTGRES_PASSWORD || 'password',
       database: process.env.POSTGRES_DB || 'product_db',
-      entities: [],
+      entities: [Product, Review],
       synchronize: process.env.POSTGRES_SYNC_ORM === 'true' || false,
     }),
   ],
