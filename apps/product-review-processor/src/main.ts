@@ -1,8 +1,23 @@
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ProductReviewProcessorModule } from './product-review-processor.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ProductReviewProcessorModule);
-  await app.listen(process.env.port ?? 3000);
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    ProductReviewProcessorModule,
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: ['amqp://admin:password@localhost:5672'],
+        queue: 'product_review_events',
+        queueOptions: {
+          durable: false,
+        },
+      },
+    },
+  );
+  await app.listen();
+  console.log('Product Review Processor is running.');
 }
+
 bootstrap();

@@ -1,12 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
-import { ProductReviewProcessorService } from './product-review-processor.service';
+import { Controller } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class ProductReviewProcessorController {
-  constructor(private readonly productReviewProcessorService: ProductReviewProcessorService) {}
-
-  @Get()
-  getHello(): string {
-    return this.productReviewProcessorService.getHello();
+  @EventPattern('event')
+  handleEvent(@Payload() data: string) {
+    console.log(data);
   }
 }
