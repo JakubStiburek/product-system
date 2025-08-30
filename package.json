@@ -22,7 +22,8 @@
     "docker:logs:processor": "docker-compose logs -f product-review-processor",
     "docker:logs:rabbitmq": "docker-compose logs -f rabbitmq",
     "docker:down": "docker-compose down",
-    "docker:restart": "docker-compose down && docker-compose up --build -d"
+    "docker:restart": "docker-compose down && docker-compose up --build -d",
+    "docs:download": "curl -s http://localhost:3000/docs-json > docs/api-spec.json"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
