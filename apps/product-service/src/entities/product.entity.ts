@@ -18,7 +18,7 @@ export class Product {
   description?: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
-  price: number;
+  price: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -26,4 +26,3 @@ export class Product {
   @UpdateDateColumn()
   updatedAt: Date;
 }
-

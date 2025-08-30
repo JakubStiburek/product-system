@@ -1,27 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './product-service.controller';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Review } from './entities/review.entity';
+import { ApplicationModule } from './application/application.module';
 
 @Module({
   imports: [
-    ClientsModule.register([
-      {
-        name: 'PRODUCT_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: [
-            process.env.RABBITMQ_URL || 'amqp://admin:password@localhost:5672',
-          ],
-          queue: 'product_review_events',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST || 'localhost',
@@ -32,7 +17,8 @@ import { Review } from './entities/review.entity';
       entities: [Product, Review],
       synchronize: process.env.POSTGRES_SYNC_ORM === 'true' || false,
     }),
+    ApplicationModule,
   ],
   controllers: [AppController],
 })
-export class AppModule { }
+export class AppModule {}

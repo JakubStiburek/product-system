@@ -1,12 +1,21 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Controller, Post, Body, Inject } from '@nestjs/common';
+import { CreateProductDto } from './dtos/create-product.dto';
+import { CreateProductUseCase } from './application/create-product.use-case';
+import { ApiOperation } from '@nestjs/swagger';
 
-@Controller()
+@Controller('api/v1')
 export class AppController {
-  constructor(@Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy) { }
+  constructor(@Inject() private createProductUseCase: CreateProductUseCase) {}
 
-  @Get()
-  getHello() {
-    this.rmqClient.emit('event', 'This is a hello from api');
+  @Post('products')
+  @ApiOperation({
+    summary: 'Creates new product',
+  })
+  async createProduct(@Body() dto: CreateProductDto) {
+    return this.createProductUseCase.execute(
+      dto.name,
+      dto.price,
+      dto.description,
+    );
   }
 }
