@@ -3,6 +3,42 @@ networks:
     driver: bridge
 
 services:
+  postgres:
+    image: postgres:17
+    environment:
+      - POSTGRES_DB=product_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: pg_isready -U admin -d product_db
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  mongodb:
+    image: mongo:7
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=product_review_aggregate_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/product_db --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
   rabbitmq:
     image: "rabbitmq:3-management"
     hostname: rabbitmq
@@ -33,10 +69,17 @@ services:
     environment:
       - PORT=3000
       - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=product_db
     networks:
       - app-network
     depends_on:
       rabbitmq:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
 
   product-review-processor:
@@ -49,8 +92,19 @@ services:
       - /app/dist
     environment:
       - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
+      - MONGODB_HOST=mongodb
+      - MONGODB_PORT=27017
+      - MONGODB_USER=admin
+      - MONGODB_PASSWORD=password
+      - MONGODB_DB=product_db
     networks:
       - app-network
     depends_on:
       rabbitmq:
         condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  mongodb_data:
