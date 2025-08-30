@@ -51,6 +51,7 @@ export class Product extends ValidatedClass {
       this.price = price;
     }
 
+    // TODO: handle deletion
     if (description && description !== this.description) {
       this.description = description;
     }

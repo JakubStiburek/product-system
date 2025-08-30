@@ -14,6 +14,7 @@ export class CreateReviewDto {
   @IsString()
   lastName: string;
 
+  // TODO: make optional
   @ApiProperty({
     description: 'Review content',
   })

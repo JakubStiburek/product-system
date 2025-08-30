@@ -8,6 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ReviewAdapter } from '../infrastracture/review.adapter';
 import { CreateReviewResponseDto } from '../dtos/create-review-response.dto';
+import { ClientProxy } from '@nestjs/microservices';
+import { Event } from '../common/rmq/event.enum';
+import { ReviewAddedDto } from '../common/dtos/review-added.dto';
 
 @Injectable()
 export class CreateReviewUseCase {
@@ -15,6 +18,7 @@ export class CreateReviewUseCase {
     @InjectRepository(ReviewDB)
     private reviewRepository: Repository<ReviewDB>,
     @Inject() private reviewAdapter: ReviewAdapter,
+    @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
   ) {}
 
   async execute(
@@ -35,7 +39,13 @@ export class CreateReviewUseCase {
       rating,
     );
 
+    // TODO: handle product not found
     await this.reviewRepository.save([this.reviewAdapter.toDBEntity(review)]);
+
+    this.rmqClient.emit(
+      Event.REVIEW_ADDED,
+      ReviewAddedDto.create(productIdVO, review.rating),
+    );
 
     return CreateReviewResponseDto.fromDomain(review);
   }

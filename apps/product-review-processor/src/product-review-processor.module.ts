@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProductReviewProcessorController } from './product-review-processor.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductReviewAggregate } from './entities/product-review-aggregate.entity';
+import { ApplicationModule } from './application/application.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ProductReviewAggregate } from './entities/product-review-aggregate.enti
       entities: [ProductReviewAggregate],
       synchronize: process.env.MONGO_INITDB_SYNC_ORM === 'true' || false,
     }),
+    ApplicationModule,
   ],
   controllers: [ProductReviewProcessorController],
 })
