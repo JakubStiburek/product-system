@@ -25,4 +25,3 @@ export class GetProductUseCase {
     return CreateProductResponseDto.fromDomain(domainProduct);
   }
 }
-

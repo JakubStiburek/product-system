@@ -5,12 +5,25 @@ import { CreateProductUseCase } from './create-product.use-case';
 import { UpdateProductUseCase } from './update-product.use-case';
 import { GetProductUseCase } from './get-product.use-case';
 import { DeleteProductUseCase } from './delete-product.use-case';
+import { ListProductsUseCase } from './list-products.use-case';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { InfrastructureModule } from '../infrastracture/infrastructure.module';
 
 @Module({
-  providers: [CreateProductUseCase, UpdateProductUseCase, GetProductUseCase, DeleteProductUseCase],
-  exports: [CreateProductUseCase, UpdateProductUseCase, GetProductUseCase, DeleteProductUseCase],
+  providers: [
+    CreateProductUseCase,
+    UpdateProductUseCase,
+    GetProductUseCase,
+    DeleteProductUseCase,
+    ListProductsUseCase,
+  ],
+  exports: [
+    CreateProductUseCase,
+    UpdateProductUseCase,
+    GetProductUseCase,
+    DeleteProductUseCase,
+    ListProductsUseCase,
+  ],
   imports: [
     ClientsModule.register([
       {
