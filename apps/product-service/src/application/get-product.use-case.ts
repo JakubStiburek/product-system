@@ -7,43 +7,22 @@ import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
 import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
 
 @Injectable()
-export class UpdateProductUseCase {
+export class GetProductUseCase {
   constructor(
     @InjectRepository(ProductDB)
     private productRepository: Repository<ProductDB>,
     @Inject() private productAdapter: ProductAdapter,
   ) {}
 
-  async execute(
-    id: string,
-    name?: string,
-    price?: number,
-    description?: string,
-  ) {
-    const existingProduct = await this.productRepository.findOneBy({ id });
+  async execute(id: string) {
+    const product = await this.productRepository.findOneBy({ id });
 
-    if (!existingProduct) {
+    if (!product) {
       throw new ProductNotFoundException(id);
     }
 
-    const product = this.productAdapter.toDomainEntity(existingProduct);
-
-    const propertiesToUpdate = {
-      name,
-      price,
-      description,
-    };
-
-    if (Object.keys(propertiesToUpdate).length === 0) {
-      return product;
-    }
-
-    product.update(propertiesToUpdate);
-
-    await this.productRepository.save([
-      this.productAdapter.toDBEntity(product),
-    ]);
-
-    return CreateProductResponseDto.fromDomain(product);
+    const domainProduct = this.productAdapter.toDomainEntity(product);
+    return CreateProductResponseDto.fromDomain(domainProduct);
   }
 }
+
