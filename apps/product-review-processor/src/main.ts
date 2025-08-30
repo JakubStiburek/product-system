@@ -8,7 +8,9 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:password@localhost:5672'],
+        urls: [
+          process.env.RABBITMQ_URL || 'amqp://admin:password@localhost:5672',
+        ],
         queue: 'product_review_events',
         queueOptions: {
           durable: false,
