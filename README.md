@@ -49,3 +49,15 @@ Code changes are automatically detected and services restart thanks to volume mo
 ## RabbitMQ management console
 
 By default you can access it at [http://localhost:15672](http://localhost:15672) username: `admin`, password: `password`
+
+### API documentation
+
+While `product-service` is running, you can access the OpenAPI documentation by visiting [http://localhost:3000/docs](http://localhost:3000/docs)
+
+or downloading the documentation in JSON format:
+
+```shell
+npm run docs:download
+```
+
+you'll then find the document in `./docs/api-spec.json`. Import it into your favourite API client like Postman or Bruno.
