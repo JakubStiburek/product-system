@@ -92,11 +92,11 @@ services:
       - /app/dist
     environment:
       - RABBITMQ_URL=amqp://admin:password@rabbitmq:5672
-      - MONGODB_HOST=mongodb
-      - MONGODB_PORT=27017
-      - MONGODB_USER=admin
-      - MONGODB_PASSWORD=password
-      - MONGODB_DB=product_db
+      - MONGO_INITDB_HOST=mongodb
+      - MONGO_INITDB_PORT=27017
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=product_review_aggregate_db
     networks:
       - app-network
     depends_on:
