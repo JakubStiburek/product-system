@@ -61,6 +61,44 @@ Key dependencies:
 - RabbitMQ via `amqplib` and `amqp-connection-manager` 
 - TypeScript with ESLint and Prettier for code quality
 
+## Application Structure
+
+The application follows Domain-Driven Design (DDD) and Clean Architecture principles:
+
+### Layered Architecture
+
+- **Domain Layer** (`domain/`): Contains business entities, value objects, and domain logic
+  - `Product` entity with validation using `class-validator`
+  - `ProductId` value object for type-safe identifiers
+  - Domain entities extend `ValidatedClass` for automatic validation
+
+- **Application Layer** (`application/`): Contains use cases and application services
+  - `CreateProductUseCase`: Orchestrates product creation flow
+  - Use cases handle business logic and coordinate between layers
+
+- **Infrastructure Layer** (`infrastracture/`): Contains adapters and external integrations
+  - `ProductAdapter`: Maps between domain entities and database entities
+  - Handles price conversion (cents ↔ euros) using transformers
+
+- **API Layer** (`dtos/`, `*.controller.ts`): HTTP interface and data transfer objects
+  - DTOs with Swagger documentation (`@ApiProperty`, `@ApiPropertyOptional`)
+  - Controllers delegate to use cases
+
+### Key Patterns
+
+- **Entity Separation**: Domain entities (`domain/products/product.entity.ts`) vs DB entities (`entities/product.entity.ts`)
+- **Value Objects**: `ProductId` provides type safety and validation
+- **Adapters**: Convert between domain and infrastructure layers
+- **Price Handling**: Stored as cents (integers) in domain, converted to euros (decimal) in database
+- **Validation**: Domain entities self-validate, DTOs validate API input
+
+### API Endpoints
+
+- `POST /api/v1/products` - Create new product
+  - Input: `CreateProductDto` (name, price in cents, optional description)
+  - Output: `CreateProductResponseDto` with generated UUID
+  - Swagger documentation included
+
 ## Environment Setup
 
 The product-review-processor requires RabbitMQ running on localhost:5672 for message queue functionality.
