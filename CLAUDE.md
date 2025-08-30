@@ -57,8 +57,9 @@ nest start product-review-processor
 ## Dependencies
 
 Key dependencies:
+
 - NestJS framework with microservices support
-- RabbitMQ via `amqplib` and `amqp-connection-manager` 
+- RabbitMQ via `amqplib` and `amqp-connection-manager`
 - TypeScript with ESLint and Prettier for code quality
 
 ## Application Structure
@@ -102,3 +103,8 @@ The application follows Domain-Driven Design (DDD) and Clean Architecture princi
 ## Environment Setup
 
 The product-review-processor requires RabbitMQ running on localhost:5672 for message queue functionality.
+
+## Memory
+
+Always use create method on a class that inherits from the ValidatedClass instead of using default new constructor.
+
