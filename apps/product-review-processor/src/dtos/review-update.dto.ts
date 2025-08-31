@@ -1,8 +1,8 @@
 import { IsInt, Max, Min, ValidateNested } from 'class-validator';
-import { ValidatedClass } from '../utils/validated-class';
-import { ProductId } from '../../domain/products/product-id.vo';
+import { ValidatedClass } from '../common/utils/validated-class';
+import { ProductId } from '../domain/product-id.vo';
 
-export class ReviewAddedDto extends ValidatedClass {
+export class ReviewUpdateDto extends ValidatedClass {
   @ValidateNested()
   readonly productId: ProductId;
 

@@ -7,7 +7,7 @@ import { ReviewUpdateDto } from '../dtos/review-update.dto';
 import { ProductReviewAggregateAdapter } from '../infrastructure/product-review-aggregate.adapter';
 
 @Injectable()
-export class AddReviewUseCase {
+export class RemoveReviewUseCase {
   constructor(
     @InjectRepository(ProductReviewAggregateDB)
     private repository: Repository<ProductReviewAggregateDB>,
@@ -26,7 +26,7 @@ export class AddReviewUseCase {
       domainEntity =
         this.productReviewAggregateAdapter.toDomainEntity(existingAggregate);
 
-      domainEntity.addReview(dto.rating);
+      domainEntity.removeReview(dto.rating);
 
       const dbEntity =
         this.productReviewAggregateAdapter.toDBEntity(domainEntity);
@@ -37,15 +37,6 @@ export class AddReviewUseCase {
         averageRating: dbEntity.averageRating,
         updatedAt: new Date(),
       });
-    } else {
-      const dbEntity = this.repository.create({
-        productId: dto.productId.value,
-        reviewCount: 1,
-        ratingSum: dto.rating,
-        averageRating: dto.rating,
-      });
-
-      await this.repository.save([dbEntity]);
     }
   }
 }

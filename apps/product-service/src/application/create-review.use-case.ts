@@ -10,7 +10,7 @@ import { ReviewAdapter } from '../infrastracture/review.adapter';
 import { CreateReviewResponseDto } from '../dtos/create-review-response.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Event } from '../common/rmq/event.enum';
-import { ReviewAddedDto } from '../common/dtos/review-added.dto';
+import { ReviewUpdateDto } from '../common/dtos/review-update.dto';
 
 @Injectable()
 export class CreateReviewUseCase {
@@ -44,7 +44,7 @@ export class CreateReviewUseCase {
 
     this.rmqClient.emit(
       Event.REVIEW_ADDED,
-      ReviewAddedDto.create(productIdVO, review.rating),
+      ReviewUpdateDto.create(productIdVO, review.rating),
     );
 
     return CreateReviewResponseDto.fromDomain(review);

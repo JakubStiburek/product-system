@@ -39,6 +39,7 @@ export class UpdateReviewUseCase {
     );
 
     await this.reviewRepository.save(updatedReviewDB);
+    // TODO: handle reveiw update event
 
     return CreateReviewResponseDto.fromDomain(review);
   }
