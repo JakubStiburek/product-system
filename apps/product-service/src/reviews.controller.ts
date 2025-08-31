@@ -8,6 +8,7 @@ import {
   Get,
   Delete,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PaginationDto } from './dtos/pagination.dto';
 import { CreateReviewDto } from './dtos/create-review.dto';
@@ -22,6 +23,7 @@ import { PaginatedReviewsResponseDto } from './dtos/paginated-reviews-response.d
 import { UuidDto } from './common/dtos/uuid.dto';
 import { ReviewIdDto } from './dtos/review-id.dto';
 import { ListReviewsQueryDto } from './dtos/list-reviews-query.dto';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('api/v1')
 export class ReviewsController {
@@ -32,6 +34,7 @@ export class ReviewsController {
     @Inject() private listReviewsUseCase: ListReviewsUseCase,
   ) {}
 
+  @UseInterceptors(CacheInterceptor)
   @Get('products/:id/reviews')
   @ApiOperation({
     summary: 'Lists reviews for a product with pagination',

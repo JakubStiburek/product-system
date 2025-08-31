@@ -6,7 +6,9 @@ import { Review } from './entities/review.entity';
 import { ApplicationModule } from './application/application.module';
 import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware';
 import { ReviewsController } from './reviews.controller';
+import { CacheModule } from '@nestjs/cache-manager';
 
+const FIVE_SECONDS_IN_MILIS = 1_000 * 5;
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -20,6 +22,11 @@ import { ReviewsController } from './reviews.controller';
       synchronize: process.env.POSTGRES_SYNC_ORM === 'true' || false,
     }),
     ApplicationModule,
+    CacheModule.register({
+      ttl: parseInt(
+        process.env.DEFAULT_CACHE_TTL || `${FIVE_SECONDS_IN_MILIS}`,
+      ),
+    }),
   ],
   controllers: [ProductsController, ReviewsController],
 })
