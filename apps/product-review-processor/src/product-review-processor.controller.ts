@@ -1,10 +1,10 @@
 import { Controller, Inject } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { ReviewAggregateUpdateDto } from './dtos/review-aggregate-update.dto';
-import { AddReviewUseCase } from './application/add-review.use-case';
-import { RemoveReviewUseCase } from './application/remove-review.use-case';
+import { ReviewAddedUseCase } from './application/review-added.use-case';
+import { ReviewRemovedUseCase } from './application/review-removed.use-case';
 import { ProductId } from './domain/product-id.vo';
-import { UpdateReviewUseCase } from './application/update-review.use-case';
+import { ReviewUpdatedUseCase } from './application/review-updated.use-case';
 import { ProductDeletedUseCase } from './application/product-deleted.use-case';
 import { GetAverageRatingUseCase } from './application/get-average-rating.use-case';
 
@@ -22,12 +22,12 @@ enum Message {
 @Controller()
 export class ProductReviewProcessorController {
   constructor(
-    @Inject() private addReviewUseCase: AddReviewUseCase,
-    @Inject() private removeReviewUseCase: RemoveReviewUseCase,
-    @Inject() private updateReviewUseCase: UpdateReviewUseCase,
+    @Inject() private reviewAddedUseCase: ReviewAddedUseCase,
+    @Inject() private reviewRemovedUseCase: ReviewRemovedUseCase,
+    @Inject() private reviewUpdatedUseCase: ReviewUpdatedUseCase,
     @Inject() private productDeletedUseCase: ProductDeletedUseCase,
     @Inject() private getAverageRatingUseCase: GetAverageRatingUseCase,
-  ) {}
+  ) { }
 
   @EventPattern(Event.REVIEW_ADDED)
   async handleReviewAdded(
@@ -39,7 +39,7 @@ export class ProductReviewProcessorController {
       true,
     );
 
-    await this.addReviewUseCase.execute(dto);
+    await this.reviewAddedUseCase.execute(dto);
   }
 
   @EventPattern(Event.REVIEW_REMOVED)
@@ -52,7 +52,7 @@ export class ProductReviewProcessorController {
       false,
     );
 
-    await this.removeReviewUseCase.execute(dto);
+    await this.reviewRemovedUseCase.execute(dto);
   }
 
   @EventPattern(Event.REVIEW_UPDATED)
@@ -70,7 +70,7 @@ export class ProductReviewProcessorController {
       data.shouldAddToSum,
     );
 
-    await this.updateReviewUseCase.execute(dto);
+    await this.reviewUpdatedUseCase.execute(dto);
   }
 
   @EventPattern(Event.PRODUCT_DELETED)

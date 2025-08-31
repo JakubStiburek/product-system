@@ -8,13 +8,13 @@ import { ReviewAggregateUpdateDto } from '../dtos/review-aggregate-update.dto';
 import { ProductReviewAggregateAdapter } from '../infrastructure/product-review-aggregate.adapter';
 
 @Injectable()
-export class AddReviewUseCase {
+export class ReviewAddedUseCase {
   constructor(
     @InjectRepository(ProductReviewAggregateDB)
     private repository: Repository<ProductReviewAggregateDB>,
     @Inject()
     private productReviewAggregateAdapter: ProductReviewAggregateAdapter,
-  ) {}
+  ) { }
 
   async execute(dto: ReviewAggregateUpdateDto) {
     const existingAggregateRaw = await this.repository.findOneBy({

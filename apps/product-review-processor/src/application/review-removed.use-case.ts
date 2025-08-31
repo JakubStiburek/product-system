@@ -7,13 +7,13 @@ import { ProductReviewAggregateAdapter } from '../infrastructure/product-review-
 import { DateTime } from 'luxon';
 
 @Injectable()
-export class UpdateReviewUseCase {
+export class ReviewRemovedUseCase {
   constructor(
     @InjectRepository(ProductReviewAggregateDB)
     private repository: Repository<ProductReviewAggregateDB>,
     @Inject()
     private productReviewAggregateAdapter: ProductReviewAggregateAdapter,
-  ) {}
+  ) { }
 
   async execute(dto: ReviewAggregateUpdateDto) {
     const existingAggregateRaw = await this.repository.findOneBy({
@@ -24,7 +24,7 @@ export class UpdateReviewUseCase {
       const aggregate =
         this.productReviewAggregateAdapter.toDomainEntity(existingAggregateRaw);
 
-      aggregate.updateSum(dto.rating, dto.shouldAddToSum);
+      aggregate.removeReview(dto.rating);
 
       const updatedAggregateRaw =
         this.productReviewAggregateAdapter.toDBEntity(aggregate);
