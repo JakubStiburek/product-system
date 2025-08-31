@@ -3,6 +3,8 @@ import { ProductReviewProcessorController } from './product-review-processor.con
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductReviewAggregate } from './entities/product-review-aggregate.entity';
 import { ApplicationModule } from './application/application.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { RmqLoggingInterceptor } from './common/interceptors/rmq-logging.interceptor';
 
 @Module({
   imports: [
@@ -21,5 +23,11 @@ import { ApplicationModule } from './application/application.module';
     ApplicationModule,
   ],
   controllers: [ProductReviewProcessorController],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RmqLoggingInterceptor,
+    },
+  ],
 })
 export class ProductReviewProcessorModule {}
