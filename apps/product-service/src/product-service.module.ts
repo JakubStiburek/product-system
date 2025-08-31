@@ -7,8 +7,8 @@ import { ApplicationModule } from './application/application.module';
 import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware';
 import { ReviewsController } from './reviews.controller';
 import { CacheModule } from '@nestjs/cache-manager';
+import { FIVE_SECONDS_IN_MILIS } from './common/constants/time';
 
-const FIVE_SECONDS_IN_MILIS = 1_000 * 5;
 @Module({
   imports: [
     TypeOrmModule.forRoot({

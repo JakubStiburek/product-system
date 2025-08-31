@@ -13,6 +13,9 @@ import { ListReviewsUseCase } from './reviews/list-reviews.use-case';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { InfrastructureModule } from '../infrastracture/infrastructure.module';
 import { CreateProductUseCase } from './products/create-product.use-case';
+import { AverageRatingService } from './products/average-rating.service';
+import { CacheModule } from '@nestjs/cache-manager';
+import { FIFTEEN_MINUTEST_IN_MILIS } from '../common/constants/time';
 
 @Module({
   providers: [
@@ -25,6 +28,7 @@ import { CreateProductUseCase } from './products/create-product.use-case';
     UpdateReviewUseCase,
     DeleteReviewUseCase,
     ListReviewsUseCase,
+    AverageRatingService,
   ],
   exports: [
     CreateProductUseCase,
@@ -36,6 +40,7 @@ import { CreateProductUseCase } from './products/create-product.use-case';
     UpdateReviewUseCase,
     DeleteReviewUseCase,
     ListReviewsUseCase,
+    AverageRatingService,
   ],
   imports: [
     ClientsModule.register([
@@ -55,6 +60,12 @@ import { CreateProductUseCase } from './products/create-product.use-case';
     ]),
     TypeOrmModule.forFeature([Product, Review]),
     InfrastructureModule,
+    CacheModule.register({
+      ttl: parseInt(
+        process.env.DEFAULT_AVERAGE_RATING_CACHE_TTL ||
+          `${FIFTEEN_MINUTEST_IN_MILIS}`,
+      ),
+    }),
   ],
 })
 export class ApplicationModule {}

@@ -5,9 +5,8 @@ import { Repository } from 'typeorm';
 import { ProductAdapter } from '../../infrastracture/product.adapter';
 import { ProductDto } from '../../dtos/create-product-response.dto';
 import { PaginatedProductsResponseDto } from '../../dtos/paginated-products-response.dto';
-import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
-import { Message } from '../../common/rmq/message.enum';
+import { ProductId } from '../../domain/products/product-id.vo';
+import { AverageRatingService } from './average-rating.service';
 
 @Injectable()
 export class ListProductsUseCase {
@@ -15,7 +14,7 @@ export class ListProductsUseCase {
     @InjectRepository(ProductDB)
     private productRepository: Repository<ProductDB>,
     @Inject() private productAdapter: ProductAdapter,
-    @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
+    @Inject() private averageRatingsService: AverageRatingService,
   ) {}
 
   async execute(page: number = 1, limit: number = 10) {
@@ -29,16 +28,12 @@ export class ListProductsUseCase {
       },
     });
 
-    const productIds = productsRaw.map((product) => product.id);
-
-    const averageRatings = await firstValueFrom(
-      this.rmqClient.send<{ productId: string; averageRating: number }[]>(
-        Message.GET_AVERAGE_RATING,
-        {
-          productIds,
-        },
-      ),
+    const productIds = productsRaw.map((product) =>
+      ProductId.create(product.id),
     );
+
+    const averageRatings =
+      await this.averageRatingsService.getAverageRatings(productIds);
 
     const productDtos = productsRaw.map((productRaw) => {
       const averageRating = averageRatings.find(
