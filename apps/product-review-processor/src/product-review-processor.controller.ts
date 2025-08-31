@@ -5,11 +5,13 @@ import { AddReviewUseCase } from './application/add-review.use-case';
 import { RemoveReviewUseCase } from './application/remove-review.use-case';
 import { ProductId } from './domain/product-id.vo';
 import { UpdateReviewUseCase } from './application/update-review.use-case';
+import { ProductDeletedUseCase } from './application/product-deleted.use-case';
 
 enum Event {
   REVIEW_ADDED = 'review_added',
   REVIEW_REMOVED = 'review_removed',
   REVIEW_UPDATED = 'reveiw_updated',
+  PRODUCT_DELETED = 'product_deleted',
 }
 
 @Controller()
@@ -18,6 +20,7 @@ export class ProductReviewProcessorController {
     @Inject() private addReviewUseCase: AddReviewUseCase,
     @Inject() private removeReviewUseCase: RemoveReviewUseCase,
     @Inject() private updateReviewUseCase: UpdateReviewUseCase,
+    @Inject() private productDeletedUseCase: ProductDeletedUseCase,
   ) { }
 
   @EventPattern(Event.REVIEW_ADDED)
@@ -64,5 +67,10 @@ export class ProductReviewProcessorController {
     console.log({ dto });
 
     await this.updateReviewUseCase.execute(dto);
+  }
+
+  @EventPattern(Event.PRODUCT_DELETED)
+  async handleProductDeleted(@Payload() data: { productId: string }) {
+    await this.productDeletedUseCase.execute(ProductId.create(data.productId));
   }
 }
