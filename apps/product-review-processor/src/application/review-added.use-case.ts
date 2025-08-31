@@ -14,7 +14,7 @@ export class ReviewAddedUseCase {
     private repository: Repository<ProductReviewAggregateDB>,
     @Inject()
     private productReviewAggregateAdapter: ProductReviewAggregateAdapter,
-  ) { }
+  ) {}
 
   async execute(dto: ReviewAggregateUpdateDto) {
     const existingAggregateRaw = await this.repository.findOneBy({

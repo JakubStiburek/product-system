@@ -28,4 +28,4 @@ import { GetAverageRatingUseCase } from './get-average-rating.use-case';
     GetAverageRatingUseCase,
   ],
 })
-export class ApplicationModule { }
+export class ApplicationModule {}

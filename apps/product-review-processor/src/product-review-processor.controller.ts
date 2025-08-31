@@ -27,7 +27,7 @@ export class ProductReviewProcessorController {
     @Inject() private reviewUpdatedUseCase: ReviewUpdatedUseCase,
     @Inject() private productDeletedUseCase: ProductDeletedUseCase,
     @Inject() private getAverageRatingUseCase: GetAverageRatingUseCase,
-  ) { }
+  ) {}
 
   @EventPattern(Event.REVIEW_ADDED)
   async handleReviewAdded(
