@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from '../entities/product.entity';
 import { Review } from '../entities/review.entity';
-import { CreateProductUseCase } from './create-product.use-case';
-import { UpdateProductUseCase } from './update-product.use-case';
-import { GetProductUseCase } from './get-product.use-case';
-import { DeleteProductUseCase } from './delete-product.use-case';
-import { ListProductsUseCase } from './list-products.use-case';
-import { CreateReviewUseCase } from './create-review.use-case';
-import { UpdateReviewUseCase } from './update-review.use-case';
-import { DeleteReviewUseCase } from './delete-review.use-case';
-import { ListReviewsUseCase } from './list-reviews.use-case';
+import { UpdateProductUseCase } from './products/update-product.use-case';
+import { GetProductUseCase } from './products/get-product.use-case';
+import { DeleteProductUseCase } from './products/delete-product.use-case';
+import { ListProductsUseCase } from './products/list-products.use-case';
+import { CreateReviewUseCase } from './reviews/create-review.use-case';
+import { UpdateReviewUseCase } from './reviews/update-review.use-case';
+import { DeleteReviewUseCase } from './reviews/delete-review.use-case';
+import { ListReviewsUseCase } from './reviews/list-reviews.use-case';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { InfrastructureModule } from '../infrastracture/infrastructure.module';
+import { CreateProductUseCase } from './products/create-product.use-case';
 
 @Module({
   providers: [
@@ -57,4 +57,4 @@ import { InfrastructureModule } from '../infrastracture/infrastructure.module';
     InfrastructureModule,
   ],
 })
-export class ApplicationModule {}
+export class ApplicationModule { }

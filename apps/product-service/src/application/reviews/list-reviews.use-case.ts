@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Review as ReviewDB } from '../entities/review.entity';
+import { Review as ReviewDB } from '../../entities/review.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ReviewAdapter } from '../infrastracture/review.adapter';
-import { CreateReviewResponseDto } from '../dtos/create-review-response.dto';
-import { PaginatedReviewsResponseDto } from '../dtos/paginated-reviews-response.dto';
+import { ReviewAdapter } from '../../infrastracture/review.adapter';
+import { CreateReviewResponseDto } from '../../dtos/create-review-response.dto';
+import { PaginatedReviewsResponseDto } from '../../dtos/paginated-reviews-response.dto';
 import {
   ListReviewsQueryDto,
   SortDirection,
   SortProperty,
-} from '../dtos/list-reviews-query.dto';
+} from '../../dtos/list-reviews-query.dto';
 
 @Injectable()
 export class ListReviewsUseCase {

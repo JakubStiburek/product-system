@@ -1,14 +1,14 @@
-import { Event } from '../common/rmq/event.enum';
+import { Event } from '../../common/rmq/event.enum';
 import { Inject, Injectable } from '@nestjs/common';
-import { Review as ReviewDB } from '../entities/review.entity';
+import { Review as ReviewDB } from '../../entities/review.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ReviewAdapter } from '../infrastracture/review.adapter';
-import { CreateReviewResponseDto } from '../dtos/create-review-response.dto';
-import { ReviewNotFoundException } from '../domain/reviews/review-not-found.exception';
+import { ReviewAdapter } from '../../infrastracture/review.adapter';
+import { CreateReviewResponseDto } from '../../dtos/create-review-response.dto';
+import { ReviewNotFoundException } from '../../domain/reviews/review-not-found.exception';
 import { ClientProxy } from '@nestjs/microservices';
-import { ReviewUpdateDto } from '../common/dtos/review-update.dto';
-import { ProductId } from '../domain/products/product-id.vo';
+import { ReviewUpdateDto } from '../../common/dtos/review-update.dto';
+import { ProductId } from '../../domain/products/product-id.vo';
 import { DateTime } from 'luxon';
 
 @Injectable()

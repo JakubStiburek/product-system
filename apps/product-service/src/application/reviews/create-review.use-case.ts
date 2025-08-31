@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Review } from '../domain/reviews/review.entity';
-import { Review as ReviewDB } from '../entities/review.entity';
-import { Product as ProductDB } from '../entities/product.entity';
-import { ReviewId } from '../domain/reviews/review-id.vo';
-import { ProductId } from '../domain/products/product-id.vo';
+import { Review } from '../../domain/reviews/review.entity';
+import { Review as ReviewDB } from '../../entities/review.entity';
+import { Product as ProductDB } from '../../entities/product.entity';
+import { ReviewId } from '../../domain/reviews/review-id.vo';
+import { ProductId } from '../../domain/products/product-id.vo';
 import { v4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ReviewAdapter } from '../infrastracture/review.adapter';
-import { CreateReviewResponseDto } from '../dtos/create-review-response.dto';
+import { ReviewAdapter } from '../../infrastracture/review.adapter';
+import { CreateReviewResponseDto } from '../../dtos/create-review-response.dto';
 import { ClientProxy } from '@nestjs/microservices';
-import { Event } from '../common/rmq/event.enum';
-import { ReviewUpdateDto } from '../common/dtos/review-update.dto';
+import { Event } from '../../common/rmq/event.enum';
+import { ReviewUpdateDto } from '../../common/dtos/review-update.dto';
 import { DateTime } from 'luxon';
-import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
+import { ProductNotFoundException } from '../../domain/products/product-not-found.exception';
 
 @Injectable()
 export class CreateReviewUseCase {

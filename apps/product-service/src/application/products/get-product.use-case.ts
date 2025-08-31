@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Product as ProductDB } from '../entities/product.entity';
+import { Product as ProductDB } from '../../entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductAdapter } from '../infrastracture/product.adapter';
-import { ProductDto } from '../dtos/create-product-response.dto';
-import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
+import { ProductAdapter } from '../../infrastracture/product.adapter';
+import { ProductDto } from '../../dtos/create-product-response.dto';
+import { ProductNotFoundException } from '../../domain/products/product-not-found.exception';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { Message } from '../common/rmq/message.enum';
+import { Message } from '../../common/rmq/message.enum';
 
 @Injectable()
 export class GetProductUseCase {

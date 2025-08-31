@@ -12,15 +12,14 @@ import {
 import { PaginationDto } from './dtos/pagination.dto';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
-import { CreateReviewUseCase } from './application/create-review.use-case';
-import { UpdateReviewUseCase } from './application/update-review.use-case';
-import { DeleteReviewUseCase } from './application/delete-review.use-case';
-import { ListReviewsUseCase } from './application/list-reviews.use-case';
+import { CreateReviewUseCase } from './application/reviews/create-review.use-case';
+import { UpdateReviewUseCase } from './application/reviews/update-review.use-case';
+import { DeleteReviewUseCase } from './application/reviews/delete-review.use-case';
+import { ListReviewsUseCase } from './application/reviews/list-reviews.use-case';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateReviewResponseDto } from './dtos/create-review-response.dto';
 import { PaginatedReviewsResponseDto } from './dtos/paginated-reviews-response.dto';
 import { UuidDto } from './common/dtos/uuid.dto';
-import { ProductIdDto } from './dtos/product-id.dto';
 import { ReviewIdDto } from './dtos/review-id.dto';
 import { ListReviewsQueryDto } from './dtos/list-reviews-query.dto';
 

@@ -12,11 +12,11 @@ import {
 import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { PaginationDto } from './dtos/pagination.dto';
-import { CreateProductUseCase } from './application/create-product.use-case';
-import { UpdateProductUseCase } from './application/update-product.use-case';
-import { GetProductUseCase } from './application/get-product.use-case';
-import { DeleteProductUseCase } from './application/delete-product.use-case';
-import { ListProductsUseCase } from './application/list-products.use-case';
+import { CreateProductUseCase } from './application/products/create-product.use-case';
+import { UpdateProductUseCase } from './application/products/update-product.use-case';
+import { GetProductUseCase } from './application/products/get-product.use-case';
+import { DeleteProductUseCase } from './application/products/delete-product.use-case';
+import { ListProductsUseCase } from './application/products/list-products.use-case';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ProductDto } from './dtos/create-product-response.dto';
 import { PaginatedProductsResponseDto } from './dtos/paginated-products-response.dto';
@@ -30,7 +30,7 @@ export class ProductsController {
     @Inject() private getProductUseCase: GetProductUseCase,
     @Inject() private deleteProductUseCase: DeleteProductUseCase,
     @Inject() private listProductsUseCase: ListProductsUseCase,
-  ) {}
+  ) { }
 
   @Get('products')
   @ApiOperation({
