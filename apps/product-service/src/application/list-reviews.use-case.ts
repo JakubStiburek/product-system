@@ -30,7 +30,7 @@ export class ListReviewsUseCase {
     const sortField = query.sortBy || SortProperty.CREATED_AT;
     const sortDirection = query.sortDirection || SortDirection.DESC;
 
-    const [reviews, total] = await this.reviewRepository.findAndCount({
+    const [reviewsRaw, total] = await this.reviewRepository.findAndCount({
       where: { productId },
       skip,
       take: limit,
@@ -39,9 +39,9 @@ export class ListReviewsUseCase {
       },
     });
 
-    const reviewDtos = reviews.map((review) => {
-      const domainReview = this.reviewAdapter.toDomainEntity(review);
-      return CreateReviewResponseDto.fromDomain(domainReview);
+    const reviewDtos = reviewsRaw.map((reviewRaw) => {
+      const review = this.reviewAdapter.toDomainEntity(reviewRaw);
+      return CreateReviewResponseDto.fromDomain(review);
     });
 
     return new PaginatedReviewsResponseDto(reviewDtos, total, page, limit);
