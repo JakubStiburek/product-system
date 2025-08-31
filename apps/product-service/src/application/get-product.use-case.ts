@@ -16,7 +16,7 @@ export class GetProductUseCase {
     private productRepository: Repository<ProductDB>,
     @Inject() private productAdapter: ProductAdapter,
     @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
-  ) { }
+  ) {}
 
   async execute(id: string) {
     const product = await this.productRepository.findOneBy({ id });

@@ -41,4 +41,3 @@ export class RmqLoggingInterceptor implements NestInterceptor {
     );
   }
 }
-

@@ -12,7 +12,7 @@ export class GetAverageRatingUseCase {
     private repository: MongoRepository<ProductReviewAggregateDB>,
     @Inject()
     private productReviewAggregateAdapter: ProductReviewAggregateAdapter,
-  ) { }
+  ) {}
 
   async execute(productIds: ProductId[]) {
     const productIdValues = productIds.map((id) => id.value);
