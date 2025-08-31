@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
 import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
 import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class UpdateProductUseCase {
@@ -40,9 +41,10 @@ export class UpdateProductUseCase {
 
     product.update(propertiesToUpdate);
 
-    await this.productRepository.save([
-      this.productAdapter.toDBEntity(product),
-    ]);
+    await this.productRepository.save({
+      ...this.productAdapter.toDBEntity(product),
+      updatedAt: DateTime.now().toUTC().toJSDate(),
+    });
 
     return CreateProductResponseDto.fromDomain(product);
   }

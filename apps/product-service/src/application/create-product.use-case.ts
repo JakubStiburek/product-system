@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
 import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class CreateProductUseCase {
@@ -20,9 +21,11 @@ export class CreateProductUseCase {
     const productId = ProductId.create(v4());
     const product = Product.create(productId, name, price, description);
 
-    await this.productRepository.save([
-      this.productAdapter.toDBEntity(product),
-    ]);
+    await this.productRepository.save({
+      ...this.productAdapter.toDBEntity(product),
+      createdAt: DateTime.now().toUTC().toJSDate(),
+      updatedAt: DateTime.now().toUTC().toJSDate(),
+    });
 
     return CreateProductResponseDto.fromDomain(product);
   }

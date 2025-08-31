@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductReviewAggregate as ProductReviewAggregateDB } from '../entities/product-review-aggregate.entity';
@@ -35,7 +36,7 @@ export class AddReviewUseCase {
         reviewCount: dbEntity.reviewCount,
         ratingSum: dbEntity.ratingSum,
         averageRating: dbEntity.averageRating,
-        updatedAt: new Date(),
+        updatedAt: DateTime.now().toUTC().toJSDate(),
       });
     } else {
       const dbEntity = this.repository.create({
@@ -45,7 +46,13 @@ export class AddReviewUseCase {
         averageRating: dto.rating,
       });
 
-      await this.repository.save([dbEntity]);
+      await this.repository.save([
+        {
+          ...dbEntity,
+          createdAt: DateTime.now().toUTC().toJSDate(),
+          updatedAt: DateTime.now().toUTC().toJSDate(),
+        },
+      ]);
     }
   }
 }

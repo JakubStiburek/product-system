@@ -11,6 +11,7 @@ import { CreateReviewResponseDto } from '../dtos/create-review-response.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Event } from '../common/rmq/event.enum';
 import { ReviewUpdateDto } from '../common/dtos/review-update.dto';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class CreateReviewUseCase {
@@ -40,7 +41,11 @@ export class CreateReviewUseCase {
     );
 
     // TODO: handle product not found
-    await this.reviewRepository.save([this.reviewAdapter.toDBEntity(review)]);
+    await this.reviewRepository.save({
+      ...this.reviewAdapter.toDBEntity(review),
+      createdAt: DateTime.now().toUTC().toJSDate(),
+      updatedAt: DateTime.now().toUTC().toJSDate(),
+    });
 
     this.rmqClient.emit(
       Event.REVIEW_ADDED,

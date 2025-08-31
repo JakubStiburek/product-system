@@ -4,6 +4,7 @@ import { ProductReviewAggregate as ProductReviewAggregateDB } from '../entities/
 import { Repository } from 'typeorm';
 import { ReviewAggregateUpdateDto } from '../dtos/review-aggregate-update.dto';
 import { ProductReviewAggregateAdapter } from '../infrastructure/product-review-aggregate.adapter';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class RemoveReviewUseCase {
@@ -32,7 +33,7 @@ export class RemoveReviewUseCase {
         reviewCount: dbEntity.reviewCount,
         ratingSum: dbEntity.ratingSum,
         averageRating: dbEntity.averageRating,
-        updatedAt: new Date(),
+        updatedAt: DateTime.now().toUTC().toJSDate(),
       });
     }
   }

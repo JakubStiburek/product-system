@@ -9,6 +9,7 @@ import { ReviewNotFoundException } from '../domain/reviews/review-not-found.exce
 import { ClientProxy } from '@nestjs/microservices';
 import { ReviewUpdateDto } from '../common/dtos/review-update.dto';
 import { ProductId } from '../domain/products/product-id.vo';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class UpdateReviewUseCase {
@@ -45,7 +46,10 @@ export class UpdateReviewUseCase {
       this.reviewAdapter.toDBEntity(review),
     );
 
-    await this.reviewRepository.save(updatedReviewDB);
+    await this.reviewRepository.save({
+      ...updatedReviewDB,
+      updatedAt: DateTime.now().toUTC().toJSDate(),
+    });
 
     if (ratingDiff) {
       this.rmqClient.emit(
