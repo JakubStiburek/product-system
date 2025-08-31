@@ -25,4 +25,4 @@ import { ProductDeletedUseCase } from './product-deleted.use-case';
     ProductDeletedUseCase,
   ],
 })
-export class ApplicationModule { }
+export class ApplicationModule {}

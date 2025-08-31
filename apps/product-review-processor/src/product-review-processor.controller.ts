@@ -21,7 +21,7 @@ export class ProductReviewProcessorController {
     @Inject() private removeReviewUseCase: RemoveReviewUseCase,
     @Inject() private updateReviewUseCase: UpdateReviewUseCase,
     @Inject() private productDeletedUseCase: ProductDeletedUseCase,
-  ) { }
+  ) {}
 
   @EventPattern(Event.REVIEW_ADDED)
   async handleReviewAdded(

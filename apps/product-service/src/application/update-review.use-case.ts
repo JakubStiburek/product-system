@@ -17,7 +17,7 @@ export class UpdateReviewUseCase {
     private reviewRepository: Repository<ReviewDB>,
     @Inject() private reviewAdapter: ReviewAdapter,
     @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
-  ) { }
+  ) {}
 
   async execute(
     productId: string,

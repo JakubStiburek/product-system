@@ -9,7 +9,7 @@ export class ProductDeletedUseCase {
   constructor(
     @InjectRepository(ProductReviewAggregateDB)
     private repository: Repository<ProductReviewAggregateDB>,
-  ) { }
+  ) {}
 
   async execute(productId: ProductId) {
     await this.repository.delete({ productId: productId.value });

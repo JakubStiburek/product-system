@@ -11,7 +11,7 @@ export class DeleteProductUseCase {
     @InjectRepository(ProductDB)
     private productRepository: Repository<ProductDB>,
     @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
-  ) { }
+  ) {}
 
   async execute(id: string): Promise<void> {
     await this.productRepository.delete(id);
