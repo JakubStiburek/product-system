@@ -16,7 +16,7 @@ export class GetProductUseCase {
     private productRepository: Repository<ProductDB>,
     @Inject() private productAdapter: ProductAdapter,
     @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
-  ) {}
+  ) { }
 
   async execute(id: string) {
     const product = await this.productRepository.findOneBy({ id });
@@ -25,15 +25,20 @@ export class GetProductUseCase {
       throw new ProductNotFoundException(id);
     }
 
-    const averageRating = await firstValueFrom(
-      this.rmqClient.send<number | undefined>(Message.GET_AVERAGE_RATING, {
-        productId: id,
-      }),
+    const averageRatings = await firstValueFrom(
+      // TODO: make this a VO
+      this.rmqClient.send<{ productId: string; averageRating: number }[]>(
+        Message.GET_AVERAGE_RATING,
+        {
+          productIds: [id],
+        },
+      ),
     );
 
     const domainProduct = this.productAdapter.toDomainEntity(
       product,
-      averageRating,
+      averageRatings.find((item) => item.productId === product.id)
+        ?.averageRating,
     );
     return CreateProductResponseDto.fromDomain(domainProduct);
   }

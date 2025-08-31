@@ -27,7 +27,7 @@ export class ProductReviewProcessorController {
     @Inject() private updateReviewUseCase: UpdateReviewUseCase,
     @Inject() private productDeletedUseCase: ProductDeletedUseCase,
     @Inject() private getAverageRatingUseCase: GetAverageRatingUseCase,
-  ) {}
+  ) { }
 
   @EventPattern(Event.REVIEW_ADDED)
   async handleReviewAdded(
@@ -79,9 +79,9 @@ export class ProductReviewProcessorController {
   }
 
   @MessagePattern(Message.GET_AVERAGE_RATING)
-  async getAverageRating(@Payload() data: { productId: string }) {
+  async getAverageRating(@Payload() data: { productIds: string[] }) {
     return this.getAverageRatingUseCase.execute(
-      ProductId.create(data.productId),
+      data.productIds.map((id) => ProductId.create(id)),
     );
   }
 }
