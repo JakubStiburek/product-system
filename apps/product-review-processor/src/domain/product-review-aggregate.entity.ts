@@ -1,4 +1,4 @@
-import { IsInt, Min, ValidateNested } from 'class-validator';
+import { IsInt, IsNumber, Min, ValidateNested } from 'class-validator';
 import { ValidatedClass } from '../common/utils/validated-class';
 import { ProductReviewAggregateId } from './product-review-aggregate-id.vo';
 import { ProductId } from './product-id.vo';
@@ -18,7 +18,7 @@ export class ProductReviewAggregate extends ValidatedClass {
   @Min(1)
   ratingSum: number;
 
-  @IsInt()
+  @IsNumber()
   @Min(1)
   averageRating: number;
 

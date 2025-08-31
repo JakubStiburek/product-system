@@ -12,4 +12,4 @@ import { ProductReviewAggregate } from '../entities/product-review-aggregate.ent
   providers: [AddReviewUseCase],
   exports: [AddReviewUseCase],
 })
-export class ApplicationModule { }
+export class ApplicationModule {}

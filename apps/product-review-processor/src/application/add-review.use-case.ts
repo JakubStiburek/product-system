@@ -13,7 +13,7 @@ export class AddReviewUseCase {
     private repository: Repository<ProductReviewAggregateDB>,
     @Inject()
     private productReviewAggregateAdapter: ProductReviewAggregateAdapter,
-  ) { }
+  ) {}
 
   async execute(dto: ReviewAddedDto) {
     const existingAggregate = await this.repository.findOneBy({
@@ -26,7 +26,17 @@ export class AddReviewUseCase {
       domainEntity =
         this.productReviewAggregateAdapter.toDomainEntity(existingAggregate);
 
-      // TODO: update state
+      domainEntity.addReview(dto.rating);
+
+      const dbEntity =
+        this.productReviewAggregateAdapter.toDBEntity(domainEntity);
+
+      await this.repository.update(dbEntity._id, {
+        reviewCount: dbEntity.reviewCount,
+        ratingSum: dbEntity.ratingSum,
+        averageRating: dbEntity.averageRating,
+        updatedAt: new Date(),
+      });
     } else {
       const dbEntity = this.repository.create({
         productId: dto.productId.value,

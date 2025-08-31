@@ -9,7 +9,7 @@ enum Event {
 
 @Controller()
 export class ProductReviewProcessorController {
-  constructor(@Inject() private addReviewUseCase: AddReviewUseCase) { }
+  constructor(@Inject() private addReviewUseCase: AddReviewUseCase) {}
 
   @EventPattern(Event.REVIEW_ADDED)
   async handleEvent(@Payload() data: ReviewAddedDto) {

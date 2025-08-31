@@ -5,4 +5,3 @@ describe('ProductReviewAggregateId', () => {
     expect(() => ProductReviewAggregateId.create('id')).not.toThrow();
   });
 });
-
