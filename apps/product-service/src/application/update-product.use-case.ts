@@ -3,7 +3,7 @@ import { Product as ProductDB } from '../entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
-import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
+import { ProductDto } from '../dtos/create-product-response.dto';
 import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
 import { DateTime } from 'luxon';
 
@@ -46,6 +46,6 @@ export class UpdateProductUseCase {
       updatedAt: DateTime.now().toUTC().toJSDate(),
     });
 
-    return CreateProductResponseDto.fromDomain(product);
+    return ProductDto.fromDomain(product);
   }
 }

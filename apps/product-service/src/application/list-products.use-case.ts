@@ -3,7 +3,7 @@ import { Product as ProductDB } from '../entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
-import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
+import { ProductDto } from '../dtos/create-product-response.dto';
 import { PaginatedProductsResponseDto } from '../dtos/paginated-products-response.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -48,7 +48,7 @@ export class ListProductsUseCase {
         product,
         averageRating,
       );
-      return CreateProductResponseDto.fromDomain(domainProduct);
+      return ProductDto.fromDomain(domainProduct);
     });
 
     return new PaginatedProductsResponseDto(productDtos, total, page, limit);

@@ -6,7 +6,7 @@ import { v4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
-import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
+import { ProductDto } from '../dtos/create-product-response.dto';
 import { DateTime } from 'luxon';
 
 @Injectable()
@@ -27,6 +27,6 @@ export class CreateProductUseCase {
       updatedAt: DateTime.now().toUTC().toJSDate(),
     });
 
-    return CreateProductResponseDto.fromDomain(product);
+    return ProductDto.fromDomain(product);
   }
 }

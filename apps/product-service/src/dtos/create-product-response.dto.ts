@@ -1,8 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Product } from '../domain/products/product.entity';
 
-// TODO: rename
-export class CreateProductResponseDto {
+export class ProductDto {
   @ApiProperty({ description: 'Unique identifier' })
   id: string;
 
@@ -26,11 +25,11 @@ export class CreateProductResponseDto {
   })
   averageRating?: number;
 
-  constructor(dto: Partial<CreateProductResponseDto>) {
+  constructor(dto: Partial<ProductDto>) {
     Object.assign(this, dto);
   }
 
   static fromDomain(product: Product) {
-    return new CreateProductResponseDto({ ...product, id: product.id.value });
+    return new ProductDto({ ...product, id: product.id.value });
   }
 }

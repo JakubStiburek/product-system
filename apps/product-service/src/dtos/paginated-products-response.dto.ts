@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateProductResponseDto } from './create-product-response.dto';
+import { ProductDto } from './create-product-response.dto';
 
 export class PaginatedProductsResponseDto {
   @ApiProperty({
     description: 'List of products',
-    type: [CreateProductResponseDto],
+    type: [ProductDto],
   })
-  data: CreateProductResponseDto[];
+  data: ProductDto[];
 
   @ApiProperty({
     description: 'Total number of products',
@@ -38,12 +38,7 @@ export class PaginatedProductsResponseDto {
   })
   hasPrev: boolean;
 
-  constructor(
-    data: CreateProductResponseDto[],
-    total: number,
-    page: number,
-    limit: number,
-  ) {
+  constructor(data: ProductDto[], total: number, page: number, limit: number) {
     this.data = data;
     this.total = total;
     this.page = page;

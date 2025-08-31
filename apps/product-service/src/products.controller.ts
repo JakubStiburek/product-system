@@ -18,7 +18,7 @@ import { GetProductUseCase } from './application/get-product.use-case';
 import { DeleteProductUseCase } from './application/delete-product.use-case';
 import { ListProductsUseCase } from './application/list-products.use-case';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateProductResponseDto } from './dtos/create-product-response.dto';
+import { ProductDto } from './dtos/create-product-response.dto';
 import { PaginatedProductsResponseDto } from './dtos/paginated-products-response.dto';
 import { UuidDto } from './common/dtos/uuid.dto';
 
@@ -52,7 +52,7 @@ export class ProductsController {
   @ApiResponse({
     status: 201,
     description: 'Product created successfully',
-    type: CreateProductResponseDto,
+    type: ProductDto,
   })
   async createProduct(@Body() dto: CreateProductDto) {
     return this.createProductUseCase.execute(
@@ -69,7 +69,7 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Product updated successfully',
-    type: CreateProductResponseDto,
+    type: ProductDto,
   })
   @ApiResponse({
     status: 404,
@@ -91,7 +91,7 @@ export class ProductsController {
   @ApiResponse({
     status: 200,
     description: 'Product retrieved successfully',
-    type: CreateProductResponseDto,
+    type: ProductDto,
   })
   @ApiResponse({
     status: 404,

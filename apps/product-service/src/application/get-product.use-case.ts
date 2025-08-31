@@ -3,7 +3,7 @@ import { Product as ProductDB } from '../entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
-import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
+import { ProductDto } from '../dtos/create-product-response.dto';
 import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
@@ -40,6 +40,6 @@ export class GetProductUseCase {
       averageRatings.find((item) => item.productId === product.id)
         ?.averageRating,
     );
-    return CreateProductResponseDto.fromDomain(domainProduct);
+    return ProductDto.fromDomain(domainProduct);
   }
 }
