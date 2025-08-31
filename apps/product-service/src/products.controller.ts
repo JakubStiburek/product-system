@@ -30,7 +30,7 @@ export class ProductsController {
     @Inject() private getProductUseCase: GetProductUseCase,
     @Inject() private deleteProductUseCase: DeleteProductUseCase,
     @Inject() private listProductsUseCase: ListProductsUseCase,
-  ) { }
+  ) {}
 
   @Get('products')
   @ApiOperation({

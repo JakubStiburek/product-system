@@ -57,4 +57,4 @@ import { CreateProductUseCase } from './products/create-product.use-case';
     InfrastructureModule,
   ],
 })
-export class ApplicationModule { }
+export class ApplicationModule {}
