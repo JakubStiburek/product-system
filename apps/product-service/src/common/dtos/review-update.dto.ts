@@ -1,19 +1,31 @@
-import { IsInt, Max, Min, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsUUID,
+  Max,
+  Min,
+} from 'class-validator';
 import { ValidatedClass } from '../utils/validated-class';
 import { ProductId } from '../../domain/products/product-id.vo';
 
 export class ReviewUpdateDto extends ValidatedClass {
-  @ValidateNested()
-  readonly productId: ProductId;
+  @IsUUID(4)
+  readonly productId: string;
 
   @IsInt()
   @Min(1)
   @Max(5)
   readonly rating: number;
 
-  constructor(productId: ProductId, rating: number) {
+  @IsOptional()
+  @IsBoolean()
+  shouldAddToSum?: boolean;
+
+  constructor(productId: ProductId, rating: number, shouldAddToSum?: boolean) {
     super();
-    this.productId = productId;
+    this.productId = productId.value;
     this.rating = rating;
+    this.shouldAddToSum = shouldAddToSum;
   }
 }

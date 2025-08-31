@@ -56,4 +56,22 @@ describe('ProductReviewAggregate', () => {
     expect(aggregate.ratingSum).toStrictEqual(1);
     expect(aggregate.averageRating).toStrictEqual(1);
   });
+
+  it('should update sum (decrease)', () => {
+    aggregate.updateSum(2, false);
+
+    expect(aggregate.reviewCount).toStrictEqual(5);
+    expect(aggregate.ratingSum).toStrictEqual(25 - 2);
+    expect(aggregate.averageRating).toStrictEqual(4.6);
+  });
+
+  it('should update sum (increase)', () => {
+    aggregate.ratingSum = 23;
+    aggregate.averageRating = 4.6;
+    aggregate.updateSum(2, true);
+
+    expect(aggregate.reviewCount).toStrictEqual(5);
+    expect(aggregate.ratingSum).toStrictEqual(23 + 2);
+    expect(aggregate.averageRating).toStrictEqual(5);
+  });
 });
