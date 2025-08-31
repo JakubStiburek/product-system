@@ -21,7 +21,7 @@ export class ListProductsUseCase {
   async execute(page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
 
-    const [products, total] = await this.productRepository.findAndCount({
+    const [productsRaw, total] = await this.productRepository.findAndCount({
       skip,
       take: limit,
       order: {
@@ -29,7 +29,7 @@ export class ListProductsUseCase {
       },
     });
 
-    const productIds = products.map((product) => product.id);
+    const productIds = productsRaw.map((product) => product.id);
 
     const averageRatings = await firstValueFrom(
       this.rmqClient.send<{ productId: string; averageRating: number }[]>(
@@ -40,15 +40,17 @@ export class ListProductsUseCase {
       ),
     );
 
-    const productDtos = products.map((product) => {
+    const productDtos = productsRaw.map((productRaw) => {
       const averageRating = averageRatings.find(
-        (item) => item.productId === product.id,
+        (item) => item.productId === productRaw.id,
       )?.averageRating;
-      const domainProduct = this.productAdapter.toDomainEntity(
-        product,
+
+      const product = this.productAdapter.toDomainEntity(
+        productRaw,
         averageRating,
       );
-      return ProductDto.fromDomain(domainProduct);
+
+      return ProductDto.fromDomain(product);
     });
 
     return new PaginatedProductsResponseDto(productDtos, total, page, limit);
