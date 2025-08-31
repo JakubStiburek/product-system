@@ -1,5 +1,6 @@
 import {
   IsInt,
+  IsNumber,
   IsOptional,
   IsString,
   Max,
@@ -30,7 +31,7 @@ export class Product extends ValidatedClass {
   @IsOptional()
   description?: string;
 
-  @IsInt()
+  @IsNumber()
   @Min(1)
   @Max(5)
   @IsOptional()
