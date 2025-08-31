@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 import { ProductAdapter } from '../infrastracture/product.adapter';
 import { CreateProductResponseDto } from '../dtos/create-product-response.dto';
 import { ProductNotFoundException } from '../domain/products/product-not-found.exception';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+import { Message } from '../common/rmq/message.enum';
 
 @Injectable()
 export class GetProductUseCase {
@@ -12,6 +15,7 @@ export class GetProductUseCase {
     @InjectRepository(ProductDB)
     private productRepository: Repository<ProductDB>,
     @Inject() private productAdapter: ProductAdapter,
+    @Inject('PRODUCT_SERVICE') private rmqClient: ClientProxy,
   ) {}
 
   async execute(id: string) {
@@ -21,7 +25,16 @@ export class GetProductUseCase {
       throw new ProductNotFoundException(id);
     }
 
-    const domainProduct = this.productAdapter.toDomainEntity(product);
+    const averageRating = await firstValueFrom(
+      this.rmqClient.send<number | undefined>(Message.GET_AVERAGE_RATING, {
+        productId: id,
+      }),
+    );
+
+    const domainProduct = this.productAdapter.toDomainEntity(
+      product,
+      averageRating,
+    );
     return CreateProductResponseDto.fromDomain(domainProduct);
   }
 }

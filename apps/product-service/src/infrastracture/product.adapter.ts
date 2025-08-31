@@ -22,12 +22,13 @@ export class ProductAdapter {
     });
   }
 
-  toDomainEntity(product: ProductDB): Product {
+  toDomainEntity(product: ProductDB, averageRating?: number): Product {
     return Product.create(
       ProductId.create(product.id),
       product.name,
       centsToEurosTransformer.from(product.price),
       product.description === '' ? undefined : product.description,
+      averageRating,
     );
   }
 

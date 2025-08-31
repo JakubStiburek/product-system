@@ -2,6 +2,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  Max,
   Min,
   ValidateNested,
 } from 'class-validator';
@@ -29,17 +30,25 @@ export class Product extends ValidatedClass {
   @IsOptional()
   description?: string;
 
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  @IsOptional()
+  averageRating?: number;
+
   constructor(
     id: ProductId,
     name: string,
     price: number,
     description?: string,
+    averageRating?: number,
   ) {
     super();
     this.id = id;
     this.name = name;
     this.price = price;
     this.description = description;
+    this.averageRating = averageRating;
   }
 
   update({ name, price, description }: UpdateProductPayload) {
