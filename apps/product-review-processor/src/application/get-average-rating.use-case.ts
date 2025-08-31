@@ -17,19 +17,20 @@ export class GetAverageRatingUseCase {
   async execute(productIds: ProductId[]) {
     const productIdValues = productIds.map((id) => id.value);
 
-    const existingAggregates = await this.repository.find({
+    const existingAggregatesRaw = await this.repository.find({
       where: {
         productId: { $in: productIdValues },
       },
     });
 
-    if (existingAggregates.length > 0) {
-      return existingAggregates.map((agg) => {
-        const item = this.productReviewAggregateAdapter.toDomainEntity(agg);
+    if (existingAggregatesRaw.length > 0) {
+      return existingAggregatesRaw.map((aggregateRaw) => {
+        const aggregate =
+          this.productReviewAggregateAdapter.toDomainEntity(aggregateRaw);
 
         return {
-          productId: item.productId.value,
-          averageRating: item.averageRating,
+          productId: aggregate.productId.value,
+          averageRating: aggregate.averageRating,
         };
       });
     }

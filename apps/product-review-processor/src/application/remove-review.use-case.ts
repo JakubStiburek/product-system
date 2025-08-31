@@ -16,23 +16,23 @@ export class RemoveReviewUseCase {
   ) {}
 
   async execute(dto: ReviewAggregateUpdateDto) {
-    const existingAggregate = await this.repository.findOneBy({
+    const existingAggregateRaw = await this.repository.findOneBy({
       productId: dto.productId.value,
     });
 
-    if (existingAggregate) {
-      const domainEntity =
-        this.productReviewAggregateAdapter.toDomainEntity(existingAggregate);
+    if (existingAggregateRaw) {
+      const aggregate =
+        this.productReviewAggregateAdapter.toDomainEntity(existingAggregateRaw);
 
-      domainEntity.removeReview(dto.rating);
+      aggregate.removeReview(dto.rating);
 
-      const dbEntity =
-        this.productReviewAggregateAdapter.toDBEntity(domainEntity);
+      const updatedAggregateRaw =
+        this.productReviewAggregateAdapter.toDBEntity(aggregate);
 
-      await this.repository.update(dbEntity._id, {
-        reviewCount: dbEntity.reviewCount,
-        ratingSum: dbEntity.ratingSum,
-        averageRating: dbEntity.averageRating,
+      await this.repository.update(updatedAggregateRaw._id, {
+        reviewCount: updatedAggregateRaw.reviewCount,
+        ratingSum: updatedAggregateRaw.ratingSum,
+        averageRating: updatedAggregateRaw.averageRating,
         updatedAt: DateTime.now().toUTC().toJSDate(),
       });
     }
