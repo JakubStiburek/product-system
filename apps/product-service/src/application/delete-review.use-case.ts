@@ -19,15 +19,15 @@ export class DeleteReviewUseCase {
   ) {}
 
   async execute(productId: string, reviewId: string): Promise<void> {
-    const existingReview = await this.reviewRepository.findOneBy({
+    const existingReviewRaw = await this.reviewRepository.findOneBy({
       id: reviewId,
     });
 
-    if (!existingReview) {
+    if (!existingReviewRaw) {
       throw new ReviewNotFoundException(reviewId);
     }
 
-    const review = this.reviewAdapter.toDomainEntity(existingReview);
+    const review = this.reviewAdapter.toDomainEntity(existingReviewRaw);
 
     await this.reviewRepository.delete(review.id.value);
 

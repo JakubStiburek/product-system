@@ -21,13 +21,13 @@ export class UpdateProductUseCase {
     price?: number,
     description?: string,
   ) {
-    const existingProduct = await this.productRepository.findOneBy({ id });
+    const existingProductRaw = await this.productRepository.findOneBy({ id });
 
-    if (!existingProduct) {
+    if (!existingProductRaw) {
       throw new ProductNotFoundException(id);
     }
 
-    const product = this.productAdapter.toDomainEntity(existingProduct);
+    const product = this.productAdapter.toDomainEntity(existingProductRaw);
 
     const propertiesToUpdate = {
       name,
