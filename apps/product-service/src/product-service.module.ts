@@ -1,10 +1,11 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { AppController } from './product-service.controller';
+import { ProductsController } from './products.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Review } from './entities/review.entity';
 import { ApplicationModule } from './application/application.module';
 import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware';
+import { ReviewsController } from './reviews.controller';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { HttpLoggerMiddleware } from './common/middleware/http-logger.middleware
     }),
     ApplicationModule,
   ],
-  controllers: [AppController],
+  controllers: [ProductsController, ReviewsController],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
